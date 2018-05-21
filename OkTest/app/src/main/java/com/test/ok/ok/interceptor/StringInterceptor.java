@@ -60,7 +60,8 @@ public class StringInterceptor implements Interceptor {
                     sb.append(body.encodedName(i) + "=" + body.encodedValue(i) + ",");
                 }
                 sb.delete(sb.length() - 1, sb.length());
-                LogUtil.e(TAG, "request params:{"+getDecoder(sb.toString())+"}");
+                String s = getDecoder(sb.toString());
+                if(!TextUtils.isEmpty(s)) LogUtil.e(TAG, "request params:{"+ s +"}");
             }
         }
     }

@@ -12,7 +12,6 @@ import com.test.ok.bean.TestBean;
 import com.test.ok.ok.Ok;
 import com.test.ok.ok.OkErr;
 import com.test.ok.ok.down.DownInfo;
-import com.test.ok.ok.down.DownLoadHelper;
 import com.test.ok.ok.info.OkInfo;
 import com.test.ok.ok.up.UpInfo;
 import com.test.ok.permission.EasyPermissions;
@@ -143,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                 LogUtil.e("", "onComplete " + isMain());
             }
         };
-        DownLoadHelper.download(url, f, info);
+        Ok.download(url, f, info);
     }
 
     private static boolean isMain() {
