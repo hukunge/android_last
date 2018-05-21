@@ -17,7 +17,6 @@ public abstract class DownInfo implements Observer<Integer> {
     @Override
     public void onError(Throwable e) {
         error(e);
-        done();
     }
 
     @Override
