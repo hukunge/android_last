@@ -1,6 +1,5 @@
 package com.test.ok.ok;
 
-import com.test.ok.ok.info.CommInfo;
 import com.test.ok.ok.info.OkInfo;
 import com.test.ok.ok.up.UpInfo;
 import com.test.ok.ok.up.UpLoadFileRequestBody;
@@ -38,7 +37,7 @@ public class Ok {
         ClientHelper.get().getClientString().newCall(request).enqueue(info);
     }
 
-    public static void upload(String url, File f, UpInfo p, CommInfo info){
+    public static void upload(String url, File f, UpInfo p, OkInfo info){
         UpLoadFileRequestBody pBody = new UpLoadFileRequestBody(f, MEDIA_TYPE_ALL, p);
         Request request = new Request.Builder()
                 .url(url)

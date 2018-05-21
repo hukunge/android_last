@@ -37,7 +37,8 @@ public class StringInterceptor implements Interceptor {
     }
 
     public static void printUrl(Request request) {
-        if (request.body() != null && request.body().contentType() != null && "multipart".equals(request.body().contentType().type())) {
+//        if (request.body() != null && request.body().contentType() != null && "multipart".equals(request.body().contentType().type())) {
+        if (request.body() != null && request.body().contentType() != null) {
             LogUtil.e(TAG, "request url : " + request.url());
         } else {
             String logBody = logBody(request.body());
@@ -70,7 +71,7 @@ public class StringInterceptor implements Interceptor {
     }
 
     private static synchronized void printAll(Response response, String result) {
-        //        printHeaders("request headers : ", response.request().headers());
+        printHeaders("request headers : ", response.request().headers());
         printUrl(response.request());
         LogUtil.e(TAG, "response code : " + response.code() + " || response msg : " + response.message());
         eSub(TAG, "response result : " + result);

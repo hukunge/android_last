@@ -13,7 +13,6 @@ import com.test.ok.ok.Ok;
 import com.test.ok.ok.OkErr;
 import com.test.ok.ok.down.DownInfo;
 import com.test.ok.ok.down.DownLoadHelper;
-import com.test.ok.ok.info.CommInfo;
 import com.test.ok.ok.info.OkInfo;
 import com.test.ok.ok.up.UpInfo;
 import com.test.ok.permission.EasyPermissions;
@@ -109,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        CommInfo info = new CommInfo<TestBean>() {
+        OkInfo info = new OkInfo<TestBean>(MainActivity.this) {
             @Override
             public void succ(TestBean b) {
                 Toast.makeText(MainActivity.this, "succ code : " + b.error, Toast.LENGTH_SHORT).show();
