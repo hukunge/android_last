@@ -9,6 +9,7 @@ import java.net.URLDecoder;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import okhttp3.FormBody;
 import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -49,6 +50,21 @@ public class StringInterceptor implements Interceptor {
         }
     }
 
+    public static void printFormIfPost(Request request){
+        String method=request.method();
+        if("POST".equals(method)){
+            StringBuilder sb = new StringBuilder();
+            if (request.body() instanceof FormBody) {
+                FormBody body = (FormBody) request.body();
+                for (int i = 0; i < body.size(); i++) {
+                    sb.append(body.encodedName(i) + "=" + body.encodedValue(i) + ",");
+                }
+                sb.delete(sb.length() - 1, sb.length());
+                LogUtil.e(TAG, "request params:{"+getDecoder(sb.toString())+"}");
+            }
+        }
+    }
+
     private static String getDecoder(String str){
         String body = "";
         try {
@@ -71,7 +87,8 @@ public class StringInterceptor implements Interceptor {
     }
 
     private static synchronized void printAll(Response response, String result) {
-        printHeaders("request headers : ", response.request().headers());
+        //printHeaders("request headers : ", response.request().headers());
+        printFormIfPost(response.request());
         printUrl(response.request());
         LogUtil.e(TAG, "response code : " + response.code() + " || response msg : " + response.message());
         eSub(TAG, "response result : " + result);
@@ -91,8 +108,6 @@ public class StringInterceptor implements Interceptor {
 
     /**
      * 截断输出日志
-     *
-     * @param msg
      */
     public static void eSub(String tag, String msg) {
         int LOG_MAXLENGTH = 2000;
@@ -112,9 +127,9 @@ public class StringInterceptor implements Interceptor {
     }
 
     public static String unicodeToUTF_8(String src) {
-        if (TextUtils.isEmpty(src)) {
+        if (TextUtils.isEmpty(src))
             return null;
-        }
+
         StringBuilder out = new StringBuilder();
         for (int i = 0; i < src.length(); ) {
             char c = src.charAt(i);
