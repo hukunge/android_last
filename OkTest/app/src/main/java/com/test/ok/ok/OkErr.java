@@ -6,6 +6,7 @@ package com.test.ok.ok;
 public class OkErr {
     public int code;
     public String err;
+    public Exception excp;
 
     public OkErr(int code, String err){
         this.code = code;
