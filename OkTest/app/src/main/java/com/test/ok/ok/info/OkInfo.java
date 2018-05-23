@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.Dialog;
 
 import com.google.gson.Gson;
+import com.test.ok.bean.BaseBean;
+import com.test.ok.ok.err.Err;
 import com.test.ok.util.DialogUtil;
-import com.test.ok.ok.OkErr;
+import com.test.ok.ok.err.OkErr;
 import com.test.ok.util.MyUtil;
 
 import java.io.IOException;
@@ -20,7 +22,7 @@ import okhttp3.ResponseBody;
 /**
  * Created by Kellan on 2017/8/9.
  */
-public abstract class OkInfo<T> extends BaseInfo<T> implements Callback {
+public abstract class OkInfo<T extends BaseBean> extends BaseInfo<T> implements Callback {
     private WeakReference<Dialog> weakDialog;
     private WeakReference<Activity> weakAct;
 
@@ -30,23 +32,36 @@ public abstract class OkInfo<T> extends BaseInfo<T> implements Callback {
 
     @Override
     public void onFailure(Call call, IOException e) {
-        failure(new OkErr(1000, e.getMessage()));
+        failure(new OkErr(Err.ERR_NET, Err.ERR_MSG_NET, e));
     }
 
     @Override
     public void onResponse(Call call, Response response) {
-        try {
-            ResponseBody responseBody = response.body();
-            if (!response.isSuccessful()) {
-                failure(new OkErr(response.code(), response.message()));
-                return;
-            }
-
-            T t = new Gson().fromJson(responseBody.string(), ((ParameterizedType) (getClass().getGenericSuperclass())).getActualTypeArguments()[0]);
-            response(t);
-        } catch (Exception e) {
-            failure(new OkErr(1001, e.getMessage()));
+        ResponseBody responseBody = response.body();
+        if (!response.isSuccessful()) {
+            failure(new OkErr(response.code(), "服务器错误" + response.code()));
+            return;
         }
+
+        T t;
+        try {
+            t = new Gson().fromJson(responseBody.string(), ((ParameterizedType) (getClass().getGenericSuperclass())).getActualTypeArguments()[0]);
+        } catch (Exception e) {
+            failure(new OkErr(Err.ERR_PARSE, Err.ERR_MSG_PARSE, e));
+            return;
+        }
+
+        if(t == null){
+            failure(new OkErr(Err.ERR_PARSE, Err.ERR_MSG_PARSE));
+            return;
+        }
+
+        if(t.code != 0){
+            failure(new OkErr(Err.ERR_N, t.msg));
+            return;
+        }
+
+        response(t);
     }
 
     @Override
@@ -54,21 +69,21 @@ public abstract class OkInfo<T> extends BaseInfo<T> implements Callback {
         diss();
 
         Activity act = weakAct.get();
-        if(MyUtil.isDead(act))
+        if (MyUtil.isDead(act))
             return;
 
-        act.runOnUiThread(() -> succ(t));
+        act.runOnUiThread(() -> OkInfo.this.succ(t));
     }
 
     @Override
-    public void failure(OkErr e) {
+    public void failure(OkErr err) {
         diss();
 
         Activity act = weakAct.get();
-        if(MyUtil.isDead(act))
+        if (MyUtil.isDead(act))
             return;
 
-        act.runOnUiThread(() -> fail(e));
+        act.runOnUiThread(() -> fail(err));
     }
 
     public void show() {
@@ -80,7 +95,7 @@ public abstract class OkInfo<T> extends BaseInfo<T> implements Callback {
     }
 
     private void diss() {
-        if(weakDialog == null || weakDialog.get() == null)
+        if (weakDialog == null || weakDialog.get() == null)
             return;
 
         if (weakDialog.get().isShowing()) {

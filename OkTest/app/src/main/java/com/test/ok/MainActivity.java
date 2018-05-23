@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.test.ok.bean.TestBean;
 import com.test.ok.ok.Ok;
-import com.test.ok.ok.OkErr;
+import com.test.ok.ok.err.OkErr;
 import com.test.ok.ok.down.DownInfo;
 import com.test.ok.ok.info.OkInfo;
 import com.test.ok.ok.up.UpInfo;

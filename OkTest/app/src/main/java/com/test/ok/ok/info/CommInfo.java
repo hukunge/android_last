@@ -3,7 +3,9 @@ package com.test.ok.ok.info;
 import android.os.Handler;
 
 import com.google.gson.Gson;
-import com.test.ok.ok.OkErr;
+import com.test.ok.bean.BaseBean;
+import com.test.ok.ok.err.Err;
+import com.test.ok.ok.err.OkErr;
 
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
@@ -16,35 +18,49 @@ import okhttp3.ResponseBody;
 /**
  * Created by Kellan on 2017/8/9.
  */
-public abstract class CommInfo<T> extends BaseInfo<T> implements Callback {
+public abstract class CommInfo<T extends BaseBean> extends BaseInfo<T> implements Callback {
     protected static Handler handler = new Handler();//只有一个实例
+
     public CommInfo() {
     }
 
     @Override
     public void onFailure(Call call, IOException e) {
-        failure(new OkErr(-100, "网络异常，请稍后重试"));
+        failure(new OkErr(Err.ERR_NET, Err.ERR_MSG_NET, e));
     }
 
     @Override
     public void onResponse(Call call, Response response) {
-        try {
-            ResponseBody responseBody = response.body();
-            if (!response.isSuccessful()) {
-                failure(new OkErr(response.code(), response.message()));
-                return;
-            }
-
-            T t = new Gson().fromJson(responseBody.string(), ((ParameterizedType) (getClass().getGenericSuperclass())).getActualTypeArguments()[0]);
-            response(t);
-        } catch (Exception e) {
-            failure(new OkErr(-300, "服务器异常"));
+        ResponseBody responseBody = response.body();
+        if (!response.isSuccessful()) {
+            failure(new OkErr(response.code(), "服务器错误" + response.code()));
+            return;
         }
+
+        T t;
+        try {
+            t = new Gson().fromJson(responseBody.string(), ((ParameterizedType) (getClass().getGenericSuperclass())).getActualTypeArguments()[0]);
+        } catch (Exception e) {
+            failure(new OkErr(Err.ERR_PARSE, Err.ERR_MSG_PARSE, e));
+            return;
+        }
+
+        if(t == null){
+            failure(new OkErr(Err.ERR_PARSE, Err.ERR_MSG_PARSE));
+            return;
+        }
+
+        if(t.code != 0){
+            failure(new OkErr(Err.ERR_N, t.msg));
+            return;
+        }
+
+        response(t);
     }
 
     @Override
-    public void failure(OkErr e) {
-        handler.post(() -> fail(e));
+    public void failure(OkErr err) {
+        handler.post(() -> fail(err));
     }
 
     @Override
