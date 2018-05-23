@@ -63,10 +63,7 @@ public class UpLoadFileRequestBody extends RequestBody {
             Util.closeQuietly(source);
 
             if (listener != null) {
-                h.post(() -> {
-                    listener.done();
-                    h.removeCallbacksAndMessages(null);
-                });
+                h.post(() -> listener.done());
             }
         }
     }

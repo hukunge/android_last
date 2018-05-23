@@ -72,7 +72,7 @@ public abstract class OkInfo<T extends BaseBean> extends BaseInfo<T> implements 
         if (MyUtil.isDead(act))
             return;
 
-        act.runOnUiThread(() -> OkInfo.this.succ(t));
+        act.runOnUiThread(() -> succ(t));
     }
 
     @Override
