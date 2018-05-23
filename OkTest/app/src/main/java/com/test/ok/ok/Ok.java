@@ -108,6 +108,7 @@ public class Ok {
             }
         })
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(info);
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(info);
     }
 }

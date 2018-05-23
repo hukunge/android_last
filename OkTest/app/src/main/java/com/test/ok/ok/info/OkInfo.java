@@ -30,7 +30,7 @@ public abstract class OkInfo<T> extends BaseInfo<T> implements Callback {
 
     @Override
     public void onFailure(Call call, IOException e) {
-        failure(new OkErr(-100, "网络异常，请稍后重试"));
+        failure(new OkErr(1000, e.getMessage()));
     }
 
     @Override
@@ -45,7 +45,7 @@ public abstract class OkInfo<T> extends BaseInfo<T> implements Callback {
             T t = new Gson().fromJson(responseBody.string(), ((ParameterizedType) (getClass().getGenericSuperclass())).getActualTypeArguments()[0]);
             response(t);
         } catch (Exception e) {
-            failure(new OkErr(-300, "服务器异常"));
+            failure(new OkErr(1001, e.getMessage()));
         }
     }
 
