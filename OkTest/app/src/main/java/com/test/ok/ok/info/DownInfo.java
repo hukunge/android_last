@@ -1,4 +1,4 @@
-package com.test.ok.ok.down;
+package com.test.ok.ok.info;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;

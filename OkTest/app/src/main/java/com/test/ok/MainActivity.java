@@ -11,19 +11,16 @@ import android.widget.Toast;
 import com.test.ok.bean.TestBean;
 import com.test.ok.ok.Ok;
 import com.test.ok.ok.err.OkErr;
-import com.test.ok.ok.down.DownInfo;
+import com.test.ok.ok.info.DownInfo;
 import com.test.ok.ok.info.OkInfo;
-import com.test.ok.ok.param.Params;
-import com.test.ok.ok.up.UpInfo;
+import com.test.ok.ok.Params;
+import com.test.ok.ok.info.UpInfo;
 import com.test.ok.permission.EasyPermissions;
 import com.test.ok.permission.my.PermissionInfo;
 import com.test.ok.util.LogUtil;
 
 import java.io.File;
 import java.util.List;
-
-import okhttp3.FormBody;
-import okhttp3.RequestBody;
 
 /**
  * Created by Kellan on 2017/8/9.

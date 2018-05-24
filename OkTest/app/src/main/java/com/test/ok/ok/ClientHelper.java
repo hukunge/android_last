@@ -14,9 +14,9 @@ public class ClientHelper {
     private static final ClientHelper ch = new ClientHelper();
     private OkHttpClient clientCrypt;
     private OkHttpClient clientClean;
-    public final static int CONNECT_TIMEOUT = 60;
-    public final static int READ_TIMEOUT = 60;
-    public final static int WRITE_TIMEOUT = 60;
+    public final static int CONNECT_TIMEOUT = 30;
+    public final static int READ_TIMEOUT = 30;
+    public final static int WRITE_TIMEOUT = 30;
 
     private ClientHelper() {
         init();

@@ -1,7 +1,9 @@
-package com.test.ok.ok.up;
+package com.test.ok.ok;
 
 import android.os.Handler;
 import android.os.Looper;
+
+import com.test.ok.ok.info.UpInfo;
 
 import java.io.File;
 import java.io.IOException;

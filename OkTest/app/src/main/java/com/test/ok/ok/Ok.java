@@ -2,12 +2,10 @@ package com.test.ok.ok;
 
 import android.support.annotation.NonNull;
 
-import com.test.ok.ok.down.DownInfo;
+import com.test.ok.ok.info.DownInfo;
 import com.test.ok.ok.info.OkInfo;
 import com.test.ok.ok.interceptor.StringInterceptor;
-import com.test.ok.ok.param.Params;
-import com.test.ok.ok.up.UpInfo;
-import com.test.ok.ok.up.UpLoadFileRequestBody;
+import com.test.ok.ok.info.UpInfo;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +17,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okhttp3.internal.Util;
