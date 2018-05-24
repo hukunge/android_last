@@ -1,6 +1,7 @@
 package com.test.ok.ok.info;
 
 import android.os.Handler;
+import android.os.Looper;
 
 import com.google.gson.Gson;
 import com.test.ok.bean.BaseBean;
@@ -19,7 +20,7 @@ import okhttp3.ResponseBody;
  * Created by Kellan on 2017/8/9.
  */
 public abstract class CommInfo<T extends BaseBean> extends BaseInfo<T> implements Callback {
-    protected static Handler handler = new Handler();//只有一个实例
+    protected static Handler handler = new Handler(Looper.getMainLooper());//只有一个实例
 
     public CommInfo() {
     }

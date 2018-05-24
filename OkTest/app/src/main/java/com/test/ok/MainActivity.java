@@ -13,6 +13,7 @@ import com.test.ok.ok.Ok;
 import com.test.ok.ok.err.OkErr;
 import com.test.ok.ok.down.DownInfo;
 import com.test.ok.ok.info.OkInfo;
+import com.test.ok.ok.param.Params;
 import com.test.ok.ok.up.UpInfo;
 import com.test.ok.permission.EasyPermissions;
 import com.test.ok.permission.my.PermissionInfo;
@@ -72,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickPost(View view) {
         String url = "https://api.weibo.com/2/comments/create.json";
-        RequestBody b = new FormBody.Builder()
-                .add("search", "Jurassic Park")
-                .build();
+
+        Params p = new Params();
+        p.put("search", "Jurassic Park");
 
         OkInfo info = new OkInfo<TestBean>(MainActivity.this) {
             @Override
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        Ok.post(url, b, info, true);
+        Ok.post(url, p, info, true);
     }
 
     public void onClickUpload(View view) {

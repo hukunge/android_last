@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.test.ok.ok.down.DownInfo;
 import com.test.ok.ok.info.OkInfo;
 import com.test.ok.ok.interceptor.StringInterceptor;
+import com.test.ok.ok.param.Params;
 import com.test.ok.ok.up.UpInfo;
 import com.test.ok.ok.up.UpLoadFileRequestBody;
 
@@ -44,12 +45,12 @@ public class Ok {
         ClientHelper.get().getClientString().newCall(request).enqueue(info);
     }
 
-    public static void post(String url, RequestBody body, OkInfo info, boolean b){
+    public static void post(String url, Params map, OkInfo info, boolean b){
         if(b) info.show();
 
         Request request = new Request.Builder()
                 .url(url)
-                .post(body)
+                .post(map.build())
                 .build();
 
         ClientHelper.get().getClientString().newCall(request).enqueue(info);
